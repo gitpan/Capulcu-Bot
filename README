@@ -1,0 +1,99 @@
+NAME
+    Capulcu::Bot - Highly modular IRC bot
+
+SYNOPSIS
+      use Capulcu::Bot qw/capulcu/;
+      capulcu;
+
+DESCRIPTION
+    Capulcu::Bot or simply capulcu is a highly modular IRC bot. It's a
+    simple and powerful bot. It's using Bot::BasicBot. Copy config.example
+    to ~/.capulcu/config and start using bot.
+
+    Writing plugins is easy. Let's say you want to reply someone when he
+    says !hello. Make a perl module named Capulcu::Plugin::Hello.
+
+      package Capulcu::Plugin::Hello;
+      use Capulcu::Bot qw/match_func/;
+
+      sub say_hello {
+        return 'Hello';
+      }
+
+      match_func ('^!hello', \&say_hello);
+
+    That's it! Make sure to add this plugin to your config file. Capulcu
+    will say hello when someone write !hello.
+
+    Let's say you want to say hello when someone join channel. It's simple
+    just add join_func to your script and use it like this:
+
+      package Capulcu::Plugin::Hello;
+      use Capulcu::Bot qw/join_func/;
+
+      sub say_hello {
+        return 'Hello';
+      }
+
+      join_func (\&say_hello);
+
+    See it's simple. Capulcu is providing a complete abstraction.
+
+    Exportable functions:
+
+    add_help
+       Add help to a commands. It's usually using after match_func. Example:
+
+         add_help ('!hello', 'Say hello');
+
+       People can get help items with .help command. This is only builtin
+       command in this bot. '.help' will list available help topics and when
+       user use '.help !hello' he will get it's description: 'Say hello'.
+
+    join_func
+       Codeblock will run when someone joined the channel. It takes only one
+       parameter, ref to codeblock.
+
+    match_func
+       Codeblock will run when match. It takes two parameter, first one is
+       regex and second one ref to codeblock. Example:
+
+         match_func ('^!hello', \&say_hello);
+
+       When someone say !hello it will run codeblock pointed to say_hello.
+
+    connect_func
+       Codeblock will run when bot successfully connected to server.
+
+    get_config
+       Get some configuration value. Example:
+
+         get_config ('nick');
+
+    say_something
+       Say something to someone. It requires a hash with who, channel and
+       body keys. Example:
+
+         say_something (who => 'NickServ',
+                        channel => 'msg',
+                        body => 'identify mypassword');
+
+       This will identify bot (Note: capulcu already have a built in
+       identify function).
+
+COPYRIGHT
+      Copyright 2013, Onur Aslan  <onuraslan@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or (at your
+    option) any later version.
+
+AVAILABILITY
+    The latest version of this library is likely to be available from CPAN
+    as well as:
+
+      https://github.com/onuraslan/capulcu
+
+    Checkout deve branch for some cool plugins.
+

@@ -1,0 +1,16 @@
+# Example configuration file
+# This config file must be placed in
+# ~/.capulcu/config
+
+server = irc.freenode.net
+port   = 6667
+channels = \#deneme
+ssl = 0
+
+nick = Capulcu
+alt_nicks = Capulcu_ Capulcu__
+username = Bedevi
+name = Çapulcu Bedevi
+nick_passwd = mypassword
+
+plugins = Hello
